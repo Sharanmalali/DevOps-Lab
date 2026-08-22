@@ -1,0 +1,4 @@
+# Normalize line endings: shell scripts and manifests must stay LF everywhere
+*.sh    text eol=lf
+*.yaml  text eol=lf
+*.yml   text eol=lf

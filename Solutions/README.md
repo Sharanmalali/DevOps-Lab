@@ -25,7 +25,7 @@ DevOps-Lab/
 
 | # | Solution | Topic | Source Brief | Status |
 |---|----------|-------|--------------|--------|
-| 1 | — | Kubernetes Getting Started — Hello Pod (nginx on K8s) | [Brief](../Exercises/1-Kubernetes-Getting-Started.md) | ⏳ Pending |
+| 1 | [Exercise1](Exercise1/) | Kubernetes Getting Started — Hello Pod (nginx on K8s) | [Brief](../Exercises/1-Kubernetes-Getting-Started.md) | ✅ Done |
 | 2 | — | Deploy a Flask app on Minikube using kubectl and YAML | [Brief](../Exercises/2-Minikube-Kubectl-Flask.md) | ⏳ Pending |
 | 3 | — | Scaling a Flask app on a single node using ReplicaSets | [Brief](../Exercises/3-Minikube-Scaling-Flask-App-with-Replicasets.md) | ⏳ Pending |
 | 4 | — | Docker Networking with multiple containers | [Brief](../Exercises/4-Docker-Networking.md) | ⏳ Pending |
