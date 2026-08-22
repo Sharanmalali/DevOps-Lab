@@ -14,6 +14,7 @@ I would like to express my heartfelt gratitude to all the students, colleagues a
 
 - **📝 Notes**: Concise explanations of core DevOps concepts, tools and methodologies. (work in progress)
 - **💻 Exercises**: Hands-on labsand projects designed to reinforce your skills.
+- **📦 Solutions**: Exercise-wise solutions for all 10 lab exercises, each with its own walkthrough — see [Solutions/README.md](Solutions/README.md).
 - **📖 Assignments**: Challenging, real-world scenarios to simulate industry practices.
 - **🔗 References**: Handpicked articles, blogs and videos to deepen your understanding.
 ### To Be Added
