@@ -4,14 +4,12 @@ set -euo pipefail
 
 cd "$(dirname "$0")"
 
-# Git Bash on Windows can hand native tools (minikube) a truncated PATH, so
-# minikube may not find docker. Keep docker's directory at the front of PATH.
+# Git Bash on Windows can hand native tools (minikube, docker) a truncated
+# PATH that drops /c/Program Files/Docker/... — always put docker's directory
+# at the very front so every native child resolves docker helpers correctly.
 if command -v docker >/dev/null 2>&1; then
     _docker_dir="$(dirname "$(command -v docker)")"
-    case ":${PATH}:" in
-        *":${_docker_dir}:"*) ;;
-        *) export PATH="${_docker_dir}:${PATH}" ;;
-    esac
+    export PATH="${_docker_dir}:${PATH}"
 fi
 
 echo "==> [1/5] Checking prerequisites..."
