@@ -1,2 +1,5 @@
 # Local working documents — never pushed
 /docs/
+
+# Python bytecode cache
+__pycache__/

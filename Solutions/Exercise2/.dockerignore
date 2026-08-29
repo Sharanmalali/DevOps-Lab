@@ -1,0 +1,4 @@
+# Keep solution docs/scripts out of the image build context
+README.md
+*.sh
+*.md
