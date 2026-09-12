@@ -1,0 +1,8 @@
+# The brief pins only Flask==2.0.1. Installing that TODAY pulls Werkzeug 3.x /
+# Jinja2 3.1.x, which Flask 2.0.1 cannot import (ImportError: url_quote) —
+# so the transitive deps are pinned to their Flask-2.0.1-era versions.
+Flask==2.0.1
+Werkzeug==2.0.3
+Jinja2==3.0.3
+itsdangerous==2.0.1
+click==8.0.4

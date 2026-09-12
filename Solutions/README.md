@@ -28,7 +28,7 @@ DevOps-Lab/
 | 1 | [Exercise1](Exercise1/) | Kubernetes Getting Started — Hello Pod (nginx on K8s) | [Brief](../Exercises/1-Kubernetes-Getting-Started.md) | ✅ Done |
 | 2 | [Exercise2](Exercise2/) | Deploy a Flask app on Minikube using kubectl and YAML | [Brief](../Exercises/2-Minikube-Kubectl-Flask.md) | ✅ Done |
 | 3 | [Exercise3](Exercise3/) | Scaling a Flask app on a single node using ReplicaSets | [Brief](../Exercises/3-Minikube-Scaling-Flask-App-with-Replicasets.md) | ✅ Done |
-| 4 | — | Docker Networking with multiple containers | [Brief](../Exercises/4-Docker-Networking.md) | ⏳ Pending |
+| 4 | [Exercise4](Exercise4/) | Docker Networking with multiple containers | [Brief](../Exercises/4-Docker-Networking.md) | ✅ Done |
 | 5 | — | Docker Security with AppArmor and Python | [Brief](../Exercises/5-Docker-Security-AppArmor.md) | ⏳ Pending |
 | 6 | — | Real-time operations monitoring & alerting (Prometheus + Grafana) | [Brief](../Exercises/6-Grafana-Realtime-Monitoring-of-Quick-Commerce-App.md) | ⏳ Pending |
 | 7 | — | Introduction to CI and Jenkins installation / automation | [Brief](../Exercises/7-Jenkins-CI-Automation.md) | ⏳ Pending |
