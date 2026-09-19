@@ -1,0 +1,7 @@
+README.md
+deploy.sh
+cleanup.sh
+apply_apparmor.py
+test_restricted_actions.py
+my-apparmor-profile
+.dockerignore

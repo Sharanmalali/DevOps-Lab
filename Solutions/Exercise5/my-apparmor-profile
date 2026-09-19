@@ -1,0 +1,43 @@
+#include <tunables/global>
+
+# AppArmor profile for the Exercise 5 Flask container.
+#
+# Syntax validated with: apparmor_parser -Q my-apparmor-profile
+# (Ubuntu's parser; -Q skips the kernel load so it also works on hosts
+# without AppArmor enabled, e.g. WSL2 / Docker Desktop on Windows).
+#
+# Three fixes over the brief's profile (see README "Brief clean-ups"):
+#   1. Named "profile my-apparmor-profile" so that
+#      --security-opt apparmor=my-apparmor-profile can resolve it. The
+#      brief's bare "/usr/bin/python3 { ... }" block registers under the
+#      PATH name "/usr/bin/python3" (which does not even exist in
+#      python:3.8-slim -- the interpreter lives in /usr/local/bin).
+#   2. A catch-all allow plus deny carve-outs. AppArmor denies accesses
+#      with no matching rule, so the brief's deny-only list would stop
+#      Python from reading its own standard library (/usr/local/**) at
+#      startup.
+#   3. Valid file-mode letters: this parser rejects bare "i"/"c", requires
+#      the exec qualifier ix (allow) and forbids qualifiers on x in deny
+#      rules (deny x must be bare).
+profile my-apparmor-profile {
+    # Broad allow for the runtime, then carve out what the exercise
+    # restricts -- deny rules beat allows in AppArmor.
+    /** rwklmix,
+
+    # Flask binds and serves on port 5000 (brief rule)
+    network inet stream,
+
+    # Capability restrictions (brief rules)
+    capability net_bind_service,
+    deny capability sys_admin,
+
+    # Sensitive config: passwd, shadow, hosts, ...
+    deny /etc/** r,
+
+    # Mutable system state
+    deny /var/** rw,
+
+    # No executing binaries (usrmerge: /bin is a symlink to /usr/bin)
+    deny /bin/** rmx,
+    deny /usr/bin/** rmx,
+}
