@@ -1,0 +1,21 @@
+# Jenkins image for Exercise 6: stock jenkins/jenkins:lts cannot run the
+# brief's Jenkinsfile (no Docker CLI, no Pipeline plugins), so both are
+# baked in here.
+FROM docker:27-cli AS dockercli
+
+FROM jenkins/jenkins:lts
+
+# Pipeline plugins for the Jenkinsfile:
+#   workflow-aggregator         - scripted steps (sh, echo, sleep, node...)
+#   pipeline-model-definition   - declarative `pipeline { ... }` syntax
+# (workflow-job / workflow-cps come in as dependencies.)
+RUN jenkins-plugin-cli --plugins workflow-aggregator pipeline-model-definition
+
+# curl for the pipeline's Verify stage
+USER root
+RUN apt-get update \
+    && apt-get install -y --no-install-recommends curl \
+    && rm -rf /var/lib/apt/lists/*
+USER jenkins
+
+COPY --from=dockercli /usr/local/bin/docker /usr/local/bin/docker

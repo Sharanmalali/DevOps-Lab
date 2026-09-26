@@ -1,0 +1,21 @@
+# Brief uses Prometheus defaults (15s). 5s makes the lab's `for: 15s` alerts
+# fire reliably within the deploy wait window on a short-lived simulator.
+global:
+  scrape_interval: 5s
+  evaluation_interval: 5s
+
+scrape_configs:
+  - job_name: "prometheus"
+    static_configs:
+      - targets: ["localhost:9090"]
+
+  - job_name: "delivery_service"
+    static_configs:
+      # The brief hardcodes 172.17.0.1:8000 (the docker0 bridge on Linux).
+      # On Docker Desktop (Windows/macOS) the host is host.docker.internal;
+      # deploy.sh passes --add-host=host.docker.internal:host-gateway so this
+      # one file also works on plain Linux.
+      - targets: ["host.docker.internal:8000"]
+
+rule_files:
+  - /etc/prometheus/alert_rules.yml

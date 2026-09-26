@@ -30,7 +30,7 @@ DevOps-Lab/
 | 3 | [Exercise3](Exercise3/) | Scaling a Flask app on a single node using ReplicaSets | [Brief](../Exercises/3-Minikube-Scaling-Flask-App-with-Replicasets.md) | ✅ Done |
 | 4 | [Exercise4](Exercise4/) | Docker Networking with multiple containers | [Brief](../Exercises/4-Docker-Networking.md) | ✅ Done |
 | 5 | [Exercise5](Exercise5/) | Docker Security with AppArmor and Python | [Brief](../Exercises/5-Docker-Security-AppArmor.md) | ✅ Done |
-| 6 | — | Real-time operations monitoring & alerting (Prometheus + Grafana) | [Brief](../Exercises/6-Grafana-Realtime-Monitoring-of-Quick-Commerce-App.md) | ⏳ Pending |
+| 6 | [Exercise6](Exercise6/) | Real-time operations monitoring & alerting (Prometheus + Grafana) | [Brief](../Exercises/6-Grafana-Realtime-Monitoring-of-Quick-Commerce-App.md) | ✅ Done |
 | 7 | — | Introduction to CI and Jenkins installation / automation | [Brief](../Exercises/7-Jenkins-CI-Automation.md) | ⏳ Pending |
 | 8 | — | Creating a "Hello World" Jenkins job from a GitHub repo | [Brief](../Exercises/8-Jenkins-Hello-World-Job.md) | ⏳ Pending |
 | 9 | — | Jenkins multi-stage pipeline — deploying a Python application | [Brief](../Exercises/9-Jenkins-Multi-Stage-Pipeline.md) | ⏳ Pending |
