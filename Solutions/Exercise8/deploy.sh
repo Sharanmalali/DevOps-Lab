@@ -92,17 +92,25 @@ else
 fi
 
 if [ -n "${GITHUB_TOKEN:-}" ]; then
-  b64="$(base64 < "$SCRIPT_DIR/hello-world.sh" | tr -d '\n')"
-  code="$(curl -s -o /dev/null -w '%{http_code}' "${GH_HDR[@]}" "${GH_AUTH[@]}" "${API}/repos/${GITHUB_OWNER}/${REPO_NAME}/contents/hello-world.sh?ref=main")"
-  if [ "$code" = "200" ]; then
-    sha="$(curl -fsS "${GH_HDR[@]}" "${GH_AUTH[@]}" "${API}/repos/${GITHUB_OWNER}/${REPO_NAME}/contents/hello-world.sh?ref=main" | sed -n 's/.*"sha"[[:space:]]*:[[:space:]]*"\([^"]*\)".*/\1/p' | head -1)"
-    echo "  updating hello-world.sh"
-    curl -fsS -o /dev/null "${GH_HDR[@]}" "${GH_AUTH[@]}" -X PUT "${API}/repos/${GITHUB_OWNER}/${REPO_NAME}/contents/hello-world.sh" \
-      -d "{\"message\":\"Add hello-world.sh\",\"content\":\"${b64}\",\"branch\":\"main\",\"sha\":\"${sha}\"}"
+  # Idempotent: only push when the remote content differs, so repeated runs do
+  # not pile up meaningless "Add hello-world.sh" commits.
+  local_script="$(cat "$SCRIPT_DIR/hello-world.sh")"
+  remote_script="$(curl -fsS "https://raw.githubusercontent.com/${GITHUB_OWNER}/${REPO_NAME}/main/hello-world.sh" 2>/dev/null || true)"
+  if [ -n "$remote_script" ] && [ "$remote_script" = "$local_script" ]; then
+    echo "  hello-world.sh already up to date"
   else
-    echo "  creating hello-world.sh on branch main"
-    curl -fsS -o /dev/null "${GH_HDR[@]}" "${GH_AUTH[@]}" -X PUT "${API}/repos/${GITHUB_OWNER}/${REPO_NAME}/contents/hello-world.sh" \
-      -d "{\"message\":\"Add hello-world.sh\",\"content\":\"${b64}\",\"branch\":\"main\"}"
+    b64="$(base64 < "$SCRIPT_DIR/hello-world.sh" | tr -d '\n')"
+    code="$(curl -s -o /dev/null -w '%{http_code}' "${GH_HDR[@]}" "${GH_AUTH[@]}" "${API}/repos/${GITHUB_OWNER}/${REPO_NAME}/contents/hello-world.sh?ref=main")"
+    if [ "$code" = "200" ]; then
+      sha="$(curl -fsS "${GH_HDR[@]}" "${GH_AUTH[@]}" "${API}/repos/${GITHUB_OWNER}/${REPO_NAME}/contents/hello-world.sh?ref=main" | sed -n 's/.*"sha"[[:space:]]*:[[:space:]]*"\([^"]*\)".*/\1/p' | head -1)"
+      echo "  updating hello-world.sh"
+      curl -fsS -o /dev/null "${GH_HDR[@]}" "${GH_AUTH[@]}" -X PUT "${API}/repos/${GITHUB_OWNER}/${REPO_NAME}/contents/hello-world.sh" \
+        -d "{\"message\":\"Add hello-world.sh\",\"content\":\"${b64}\",\"branch\":\"main\",\"sha\":\"${sha}\"}"
+    else
+      echo "  creating hello-world.sh on branch main"
+      curl -fsS -o /dev/null "${GH_HDR[@]}" "${GH_AUTH[@]}" -X PUT "${API}/repos/${GITHUB_OWNER}/${REPO_NAME}/contents/hello-world.sh" \
+        -d "{\"message\":\"Add hello-world.sh\",\"content\":\"${b64}\",\"branch\":\"main\"}"
+    fi
   fi
   echo "  script: ${REPO_URL%.git}/blob/main/hello-world.sh"
 else

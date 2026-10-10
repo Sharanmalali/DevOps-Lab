@@ -113,7 +113,7 @@ Real output from this machine (UI on 8081 because 8080 was taken):
 [2/7] Ensuring GitHub sample repo 'devops-sample-code' + hello-world.sh
   owner: shreyassridhar44
   repo exists
-  updating hello-world.sh
+  hello-world.sh already up to date
   script: https://github.com/shreyassridhar44/devops-sample-code/blob/main/hello-world.sh
 [3/7] Preparing Jenkins (image ex8-jenkins)
   port 8080 is in use, trying 8081...
