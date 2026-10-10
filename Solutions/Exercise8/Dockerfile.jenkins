@@ -1,0 +1,9 @@
+# Jenkins image for Exercise 8.
+#
+# The stock jenkins/jenkins:lts image ships NO plugins, and the brief's job is a
+# Freestyle project using "Git" under Source Code Management - that SCM provider
+# comes from the `git` plugin. Bake it in so the controller can clone the repo
+# out of the box (git-client, credentials, ... arrive as dependencies).
+FROM jenkins/jenkins:lts
+
+RUN jenkins-plugin-cli --plugins git
