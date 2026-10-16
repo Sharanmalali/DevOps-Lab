@@ -1,0 +1,8 @@
+# Dockerfile for Product Catalog (Exercise 10)
+# Brief says python:3.9-slim; this solution uses python:3.12-slim (README section 7).
+FROM python:3.12-slim
+WORKDIR /app
+COPY product_catalog.py /app/
+RUN pip install flask
+EXPOSE 80
+CMD ["python", "product_catalog.py"]

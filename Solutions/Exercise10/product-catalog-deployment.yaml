@@ -1,0 +1,31 @@
+# product-catalog-deployment.yaml (brief Step 6, with the clean-ups in README section 7)
+# Product Catalog (AppA): 2 replicas, one per node via required pod anti-affinity
+# on topologyKey kubernetes.io/hostname.
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: product-catalog
+  namespace: default
+spec:
+  replicas: 2
+  selector:
+    matchLabels:
+      app: product-catalog
+  template:
+    metadata:
+      labels:
+        app: product-catalog
+    spec:
+      affinity:
+        podAntiAffinity:
+          requiredDuringSchedulingIgnoredDuringExecution:
+          - labelSelector:
+              matchLabels:
+                app: product-catalog
+            topologyKey: "kubernetes.io/hostname"
+      containers:
+      - name: product-catalog-container
+        image: product-catalog:latest
+        imagePullPolicy: IfNotPresent
+        ports:
+        - containerPort: 80

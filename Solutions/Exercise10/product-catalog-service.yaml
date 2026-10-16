@@ -1,0 +1,14 @@
+# product-catalog-service.yaml (brief Step 7)
+apiVersion: v1
+kind: Service
+metadata:
+  name: product-catalog-service
+  namespace: default
+spec:
+  selector:
+    app: product-catalog
+  type: NodePort
+  ports:
+    - protocol: TCP
+      port: 80
+      targetPort: 80
