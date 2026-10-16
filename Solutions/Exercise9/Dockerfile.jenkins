@@ -1,0 +1,24 @@
+# Jenkins image for Exercise 9.
+#
+# Two gaps in the brief are closed here so the pipeline runs out of the box:
+#
+#  1. The stock jenkins/jenkins:lts image ships NO plugins. A "Pipeline" job
+#     with "Pipeline script from SCM" needs the Pipeline plugins
+#     (workflow-aggregator) and the `git` plugin for the SCM checkout.
+#  2. The brief's Step 8 has you `docker exec` into the running controller to
+#     `apt install python3 / pip / flask` by hand, because the pipeline executes
+#     `python3 -m unittest` on the controller itself. Those packages are baked
+#     into the image instead, so every rebuild is reproducible.
+FROM jenkins/jenkins:lts
+
+RUN jenkins-plugin-cli --plugins git workflow-aggregator
+
+USER root
+RUN apt-get update \
+ && apt-get install -y --no-install-recommends \
+      python3 \
+      python3-pip \
+      python3-venv \
+      python3-flask \
+ && rm -rf /var/lib/apt/lists/*
+USER jenkins

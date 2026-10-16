@@ -33,7 +33,7 @@ DevOps-Lab/
 | 6 | [Exercise6](Exercise6/) | Real-time operations monitoring & alerting (Prometheus + Grafana) | [Brief](../Exercises/6-Grafana-Realtime-Monitoring-of-Quick-Commerce-App.md) | ✅ Done |
 | 7 | [Exercise7](Exercise7/) | Introduction to CI and Jenkins installation / automation | [Brief](../Exercises/7-Jenkins-CI-Automation.md) | ✅ Done |
 | 8 | [Exercise8](Exercise8/) | Creating a "Hello World" Jenkins job from a GitHub repo | [Brief](../Exercises/8-Jenkins-Hello-World-Job.md) | ✅ Done |
-| 9 | — | Jenkins multi-stage pipeline — deploying a Python application | [Brief](../Exercises/9-Jenkins-Multi-Stage-Pipeline.md) | ⏳ Pending |
+| 9 | [Exercise9](Exercise9/) | Jenkins multi-stage pipeline — deploying a Python application | [Brief](../Exercises/9-Jenkins-Multi-Stage-Pipeline.md) | ✅ Done |
 | 10 | — | Multi-node Minikube cluster with multiple apps and ReplicaSets | [Brief](../Exercises/10-Minikube-Multi-Node-Multi-App-Minikube-Deployment.md) | ⏳ Pending |
 
 *The "Solution" column becomes a link once that exercise has been pushed.*
