@@ -1,0 +1,63 @@
+# PostgreSQL database: Deployment + ClusterIP Service.
+# ClusterIP = reachable only INSIDE the cluster, the DB port is never published.
+apiVersion: v1
+kind: PersistentVolumeClaim
+metadata:
+  name: patient-db-pvc
+spec:
+  accessModes: ["ReadWriteOnce"]
+  resources:
+    requests:
+      storage: 1Gi
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: patient-db
+  labels:
+    app: patient-db
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: patient-db
+  template:
+    metadata:
+      labels:
+        app: patient-db
+    spec:
+      containers:
+      - name: postgres
+        image: postgres:16-alpine
+        ports:
+        - containerPort: 5432
+        envFrom:
+        - secretRef:
+            name: patient-db-secret
+        env:
+        - name: PGDATA
+          value: /var/lib/postgresql/data/pgdata
+        readinessProbe:
+          exec:
+            command: ["sh", "-c", "pg_isready -U $POSTGRES_USER -d $POSTGRES_DB"]
+          initialDelaySeconds: 5
+          periodSeconds: 5
+        volumeMounts:
+        - name: data
+          mountPath: /var/lib/postgresql/data
+      volumes:
+      - name: data
+        persistentVolumeClaim:
+          claimName: patient-db-pvc
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: patient-db          # this name is the DNS name the API uses (DB_HOST)
+spec:
+  type: ClusterIP
+  selector:
+    app: patient-db
+  ports:
+  - port: 5432
+    targetPort: 5432

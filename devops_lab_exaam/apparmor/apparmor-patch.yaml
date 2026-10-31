@@ -1,0 +1,13 @@
+# Adds the AppArmor profile to the patient-api container.
+# Apply ONLY on a node where AppArmor is enabled and the profile is loaded:
+#   kubectl patch deployment patient-api --patch-file k8s/apparmor-patch.yaml
+# (On a node without AppArmor the pods would be rejected: "AppArmor is not enabled".)
+spec:
+  template:
+    spec:
+      containers:
+      - name: patient-api
+        securityContext:
+          appArmorProfile:
+            type: Localhost
+            localhostProfile: k8s-patient-api

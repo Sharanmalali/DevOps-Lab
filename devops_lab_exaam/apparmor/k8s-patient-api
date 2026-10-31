@@ -1,0 +1,44 @@
+#include <tunables/global>
+
+# AppArmor profile for the patient-api (Python/Flask) container.
+# Load on every Linux node:   sudo apparmor_parser -r -W apparmor/k8s-patient-api
+# Docker:      docker run --security-opt apparmor=k8s-patient-api ...
+# Kubernetes:  securityContext.appArmorProfile {type: Localhost, localhostProfile: k8s-patient-api}
+profile k8s-patient-api flags=(attach_disconnected,mediate_deleted) {
+  #include <abstractions/base>
+
+  # ---- PERMITTED: what the API needs ------------------------------------
+  file,                                  # normal file access (narrowed by the deny rules below)
+  network inet  stream,                  # TCP: serve HTTP on :5000, talk to PostgreSQL :5432
+  network inet6 stream,
+  network inet  dgram,                   # UDP: DNS lookup of "patient-db"
+  network inet6 dgram,
+  network unix,
+  signal (send, receive) peer=k8s-patient-api,   # gunicorn master <-> workers
+
+  # ---- RESTRICTED: dangerous operations --------------------------------
+  deny network raw,                      # no raw sockets (packet crafting / sniffing)
+  deny network packet,
+
+  deny /bin/**      x,                   # no shells or system binaries (sh, bash, apt, curl ...)
+  deny /usr/bin/**  x,
+  deny /sbin/**     x,
+  deny /usr/sbin/** x,
+
+  deny /app/**      wl,                  # application code is immutable
+  deny /etc/**      wl,                  # no config tampering
+  deny /etc/shadow  r,                   # no password hashes
+  deny /root/**     rwl,
+  deny @{PROC}/sys/** w,                 # no kernel tuning
+  deny @{PROC}/sysrq-trigger rw,
+  deny @{PROC}/kcore r,
+  deny /sys/**      w,
+
+  deny mount,
+  deny umount,
+  deny pivot_root,
+  deny ptrace,
+  deny capability sys_admin,
+  deny capability sys_module,
+  deny capability net_raw,
+}
