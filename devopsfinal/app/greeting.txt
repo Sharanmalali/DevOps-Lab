@@ -1,1 +1,1 @@
-Hello from the DevOps final app (version 2 - updated message)
+Hello from the DevOps final app (version 3 - live demo)
