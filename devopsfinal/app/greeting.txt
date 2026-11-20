@@ -1,0 +1,1 @@
+Hello from the DevOps final app (version 1)
